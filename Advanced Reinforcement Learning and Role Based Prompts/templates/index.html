@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reinforcement Learning and Role Based Prompts</title>
+    <link href="{{ url_for('static', filename='styles/style.css')}}" rel="stylesheet"/>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+
+<body>
+    <center><h1>Reinforcement Learning and Role Based Prompts</h1></center>
+    
+    <div class="main_div">
+        <div class="divisions">
+            <h2>Reinforcement Learning</h2>
+
+            <form method="post"><input type="text" name="rfi">  <button type="submit">Generate</button></form>
+
+            <h3 style="margin-bottom: 10px; margin-top: 50px;">Output:</h3>
+            <div class="div_output">
+                {% if reinforcement_output %}
+                <p class="outputs">{{ reinforcement_output }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="main_div">
+        <div class="divisions">
+            <h2>Role-Based Prompts</h2>
+
+            <form method="post">
+            <input type="text" placeholder="Enter the topic (e.g. Helicopters)" name="rbi">
+            <select name="rbs">
+                <option value="oops" disabled selected>Choose a role...</option>
+                <option value="teacher">Simple and basic response.</option>
+                <option value="expert">Complex and in-depth response.</option>
+            </select>
+            <button type="submit">Generate</button>
+            </form>
+
+            <h3 style="margin-bottom: 10px; margin-top: 50px;">Output:</h3>
+            <div class="div_output">
+                {% if rolebased_output %}
+                <p class="outputs">{{ rolebased_output }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="main_div">
+        <div class="learning">
+            <h2>Questions you may have:</h2>
+            <details>
+                <summary>What is this?</summary>
+                <p>This website helps you show what <b>Reinforcement Learning</b> and <b>Role-Based Prompts</b> are. Enter a prompt to see it in real action.</p>
+            </details>
+
+            <details>
+                <summary>What is Reinforcement Learning?</summary>
+                <p><b>Reinforcement Learning</b> is using ratings and feedback to improve the chatbot's responses.</p>
+            </details>
+
+            <details>
+                <summary>What is Role-Based Prompts?</summary>
+                <p><b>Role-Based Prompts</b> is using different prompts to make a simpler or more complex response.</p>
+            </details>
+        </div>
+    </div>
+</body>
+</html>
