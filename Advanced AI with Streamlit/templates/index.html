@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova: Your AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="icon" type="image/webp" href="{{ url_for('static', filename='favicon.webp') }}">
+</head>
+<body>
+    <div class="chatbot">
+        <div class="output">
+            <h1 class="title">Nova</h1>
+            <p class="description">How can we help you today?</p>
+        </div>
+        <div class="inputarea">
+            <input class="input" placeholder="Ask anything..."><button class="submit" onclick="getoutput()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/></svg></button>
+        </div>
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    function copy_btn(element){
+        const parent = element.parentElement.parentElement;
+        const child_elem = parent.firstElementChild;
+        navigator.clipboard.writeText(child_elem.textContent);
+
+        element.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+        </svg>
+        `
+
+        setTimeout(() => {
+            element.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/></svg>
+            `
+        }, 1000)
+    };
+
+    async function getoutput() {
+        const input = document.getElementsByClassName("input")[0];
+        const output = document.getElementsByClassName("output")[0];
+        const submit = document.getElementsByClassName("submit")[0];
+        const title = document.getElementsByClassName("title")[0];
+        const description = document.getElementsByClassName("description")[0];
+
+        submit.disabled = true;
+        title.style.display = "none";
+        description.style.display = "none";
+
+        if (input.value.trim() === "") {
+            submit.disabled = false;
+            return;
+        }
+
+        output.insertAdjacentHTML("beforeend", ` 
+            <div class="outer">
+                <div class="user">
+                    <div class="user_text">${input.value}</div>
+                    <div class="user_menu"><button class="user_menu_button" onclick="copy_btn(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/></svg></button></div>
+                </div>
+            </div>`
+        );
+
+        try {
+            let result = await fetch("/generate", {method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(input.value)});
+
+            if (!result.ok) {
+            output.insertAdjacentHTML("beforeend", `
+                <div class="response" style="color: red;">There was an error getting the output. Please contact support.</div>
+            `)
+            };
+
+            let data = await result.json()
+            let htmlparsed = marked.parse(data.reply)
+            output.insertAdjacentHTML("beforeend", `
+                <div class="response">${htmlparsed}</div>
+            `)
+
+        } catch (error){
+            output.insertAdjacentHTML("beforeend", `
+                <div class="response" style="color: red;">${error}</div>
+            `)
+        }
+
+        submit.disabled = false;
+        input.value = "";
+    };
+
+</script>
+</body>
+</html>
