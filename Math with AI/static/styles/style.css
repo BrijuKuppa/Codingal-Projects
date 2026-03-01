@@ -1,0 +1,288 @@
+body {
+    background-color: #212121;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Chatbot */
+
+/*  Intro */
+.title {
+    padding-top: 40vh;
+    justify-self: center;
+}
+
+.description {
+    justify-self: center;
+}
+
+/*  Main */
+
+.chatbot {
+    align-self: center;
+    justify-self: center;
+    height: 80vh;
+    width: 50vw;
+}
+
+.output {
+    padding: 1px;
+    height: 88vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    color: white;
+}
+
+/*  Input */
+
+.inputarea {
+    position: fixed;
+    display: flex;
+    top: 90%;
+    justify-self: center;
+    gap: 8px;
+    border-radius: 100px;
+    border: none;
+    width: 70%;
+    height: 50px;
+    background-color: #303030;
+    box-shadow: 5px 5px 15px rgb(0,0,0);
+    align-items: center;
+    transition: all 1s;
+}
+
+.inputarea:hover {
+    width: 80%
+}
+
+@media (min-width: 2000px) {
+    .inputarea {
+    position: fixed;
+    display: flex;
+    top: 90%;
+    justify-self: center;
+    gap: 8px;
+    border-radius: 100px;
+    border: none;
+    width: 30%;
+    height: 50px;
+    background-color: #303030;
+    box-shadow: 5px 5px 15px rgb(0,0,0);
+    align-items: center;
+    transition: all 1s;
+    }
+
+    .inputarea:hover {
+        width: 40%
+    }
+}
+
+.submit {
+    flex: 0;
+    height: 60%;
+    width: 5%;
+    padding-top: 7px;
+    background-color: #c1c1c1;
+    border: none;
+    border-radius: 100px;
+    margin-right: 10px;
+    transition: all 0.1s;
+}
+
+.input {
+    flex: 1;
+    border: none;
+    width: 80%;
+    background-color: rgba(0,0,0,0);
+    resize: none;
+    margin-left: 20px;
+    color: white
+}
+
+.outer {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 100%;
+    float: right;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.submit:hover {
+    background-color: #66cf8f;
+    padding-top: 3px;
+}
+
+/*  User */
+
+.user {
+    float: right;
+    max-width: 25%;
+    overflow-wrap: anywhere;
+}
+
+.user_text {
+    padding: 10px;
+    width: fit-content;
+    border-radius: 1vh;
+    background-color: #303030;
+    border: none;
+    align-items: center;
+}
+
+.user_menu {
+    float: right;
+    opacity: 0%;
+    transition: opacity 500ms;
+}
+
+.user_menu_button {
+    margin: 3px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+.user_text:hover + .user_menu {
+    opacity: 100%;
+}
+
+.user_menu:hover {
+    opacity: 100%;
+}
+
+/*  Spinner */
+
+.spinner {
+    height: 20px;
+    width: 20px;
+    margin-top: 13%;
+    border: solid, 1px;
+    border-color: white transparent white transparent;
+    border-radius: 50%;
+    animation: spin 1.3s ease infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Sidebar */
+
+.sidebar {
+    height: 95vh;
+    width: 1.5vw;
+    position:  fixed;
+    background-color: #303030;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    gap: 1vw;
+    transition: width 500ms;
+    align-items: flex-start;
+}
+
+.sidebar:hover {
+    width: 8vw;
+}
+
+.sidebar:hover .download_conv h2{
+    opacity: 100%;
+}
+
+.sidebar:hover .reset_conv h2{
+    opacity: 100%;
+}
+
+.sidebar:hover .nova h1{
+    opacity: 100%;
+}
+
+.nova {
+    color: white;
+    display: flex;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-self: center;
+    gap: 15%;
+    width: 100%;
+    transition: all 500ms;
+}
+
+.logo {
+    height: 1vw;
+    width: 1vw;
+    align-self: center;
+}
+
+.nova h1 {
+    opacity: 0%;
+    font-size: 1.5vw;
+    transition: 250ms;
+    align-self: center;
+}
+
+.download_conv {
+    color: white;
+    display: flex;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-self: center;
+    gap: 15%;
+    width: 100%;
+    transition: all 500ms;
+}
+
+.download_conv:hover {
+    background-color: rgba(255, 255, 255, 0.3)
+}
+
+.download_conv h2 {
+    opacity: 0%;
+    font-size: 1vw;
+    transition: opacity 250ms;
+}
+
+.download_conv svg {
+    height: 1vw;
+    width: 1vw;
+    flex-shrink: 0;
+}
+
+.reset_conv {
+    color: white;
+    display: flex;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-self: center;
+    gap: 15%;
+    width: 100%;
+    transition: all 500ms;
+}
+
+.reset_conv:hover {
+    background-color: rgba(255, 255, 255, 0.3)
+}
+
+.reset_conv h2 {
+    opacity: 0%;
+    font-size: 1vw;
+    align-self: center;
+    transition: opacity 250ms;
+}
+
+.reset_conv svg {
+    height: 1vw;
+    width: 1vw;
+    flex-shrink: 0;
+}
